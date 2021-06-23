@@ -1,2 +1,2 @@
 # Mitake
-Laravel Mitake plugins
+Laravel Mitake Package

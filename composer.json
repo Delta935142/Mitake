@@ -1,0 +1,19 @@
+{
+    "name": "delta935142/mitake",
+    "type": "library",
+    "description": "Mitake newsletter",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Delta935142",
+            "email": "s303446@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Delta935142\\Mitake\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}

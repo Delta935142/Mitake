@@ -1,5 +1,4 @@
-# Mitake
-Laravel 三竹簡訊套件
+# Laravel 三竹簡訊套件
 
 ## 安裝
 安裝套件需要先安裝 Composer

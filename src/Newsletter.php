@@ -99,8 +99,8 @@ class Newsletter
         $path = '/api/mtk/SmSend?CharsetURL='.self::CHARSET;
 
         $data = [
-            'username' => env('MITAKE_USERNAME', ''),
-            'password' => env('MITAKE_PASSWORD', ''),
+            'username' => config('mitake.username'),
+            'password' => config('mitake.password'),
             'dstaddr'  => $phone,
             'smbody'   => $message,
         ];

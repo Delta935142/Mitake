@@ -14,9 +14,18 @@
             "Delta935142\\Mitake\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Delta935142\\Mitake\\Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "dev",
     "require": {
         "php": "^7.2.5 || ^8.0",
         "guzzlehttp/guzzle": "^7.0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0|^9.0",
+        "orchestra/testbench": "7.0.x-dev"
     }
 }

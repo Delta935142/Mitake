@@ -17,7 +17,14 @@ $ composer require delta935142/mitake
 Delta935142\Mitake\Providers\MitakeServiceProvider::class,
 ```
 
-#### Step 3 - 設定 .env
+#### Step 3 - 建立 config
+執行下列指令
+
+```shell
+$ php artisan vendor:publish --provider="Delta935142\Mitake\Providers\MitakeServiceProvider"
+```
+
+#### Step 4 - 設定 .env
 開啟 `.env`, 並且加入下面兩個環境變數
 
 ```env

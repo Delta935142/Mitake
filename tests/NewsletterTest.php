@@ -14,7 +14,7 @@ class NewsletterTest extends TestCase
      */
     public function test_send()
     {
-        $response = Newsletter::smSend('0972358078', '測試簡訊');
+        $response = Newsletter::smSend('123456789', '測試簡訊');
 
         $this->assertEquals(true, $response['success']);
     }
@@ -24,10 +24,10 @@ class NewsletterTest extends TestCase
      *
      * @return void
      */
-    /*public function test_query()
+    public function test_query()
     {
         $response = Newsletter::smQuery();
 
         $this->assertEquals(true, $response['success']);
-    }*/
+    }
 }

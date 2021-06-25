@@ -13,9 +13,6 @@ class MitakeServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        /*$this->app->singleton('mitake', function ($app) {
-            return new Newsletter();
-        });*/
     }
 
     /**
@@ -25,6 +22,17 @@ class MitakeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->publishing();
+    }
+
+    protected function publishing()
+    {
+        if (! function_exists('config_path')) {
+            return;
+        }
+
+        $this->publishes([
+            __DIR__.'/../../config/mitake.php' => config_path('mitake.php'),
+        ], 'config');
     }
 }

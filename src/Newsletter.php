@@ -6,6 +6,9 @@ use Illuminate\Support\Str;
 
 class Newsletter
 {
+    const HOST = 'https://smsapi.mitake.com.tw';
+    const CHARSET = 'UTF-8';
+
     /**
      * re time
      *
@@ -93,7 +96,9 @@ class Newsletter
      */
     public static function smSend(string $phone, string $message): array
     {
-        $url = config('mitake.url.send').'?CharsetURL='.config('mitake.charset');
+        $url = config('mitake.url.send')
+            ? config('mitake.url.send').'?CharsetURL='.config('mitake.charset')
+            : self::HOST.'/api/mtk/SmSend?CharsetURL='.self::CHARSET;
 
         $data = [
             'username' => config('mitake.username'),
@@ -132,7 +137,9 @@ class Newsletter
      */
     public static function smQuery(): array
     {
-        $url = config('mitake.url.query');
+        $url = config('mitake.url.query')
+            ? config('mitake.url.query')
+            : self::HOST.'/api/mtk/SmQuery';
 
         $data = [
             'username' => env('MITAKE_USERNAME', ''),

@@ -6,9 +6,6 @@ use Illuminate\Support\Str;
 
 class Newsletter
 {
-    const HOST = 'https://smsapi.mitake.com.tw';
-    const CHARSET = 'UTF-8';
-
     /**
      * re time
      *
@@ -96,7 +93,7 @@ class Newsletter
      */
     public static function smSend(string $phone, string $message): array
     {
-        $path = '/api/mtk/SmSend?CharsetURL='.self::CHARSET;
+        $url = config('mitake.url.send').'?CharsetURL='.config('mitake.charset');
 
         $data = [
             'username' => config('mitake.username'),
@@ -111,8 +108,7 @@ class Newsletter
         if (self::$name != '') $data['destname'] = self::$name;
         if (self::$clientId != '') $data['clientid'] = self::$clientId;
 
-        $result = GuzzleHttpClient::setHost(self::HOST)
-            ->setPath($path)
+        $result = GuzzleHttpClient::setHost($url)
             ->toForm($data, 'post')
             ->get();
 
@@ -136,15 +132,14 @@ class Newsletter
      */
     public static function smQuery(): array
     {
-        $path = '/api/mtk/SmQuery';
+        $url = config('mitake.url.query');
 
         $data = [
             'username' => env('MITAKE_USERNAME', ''),
             'password' => env('MITAKE_PASSWORD', ''),
         ];
 
-        $result = GuzzleHttpClient::setHost(self::HOST)
-            ->setPath($path)
+        $result = GuzzleHttpClient::setHost($url)
             ->toForm($data, 'post')
             ->get();
 

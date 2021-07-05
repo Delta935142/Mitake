@@ -7,6 +7,11 @@ use Delta935142\Mitake\Newsletter;
 
 class NewsletterTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+    }
+
     /**
      * send test
      *
@@ -14,7 +19,8 @@ class NewsletterTest extends TestCase
      */
     public function test_send()
     {
-        $response = Newsletter::smSend('123456789', '測試簡訊');
+        $newsletter = new Newsletter();
+        $response = $newsletter->smSend('123456789', '測試簡訊');
 
         $this->assertEquals(true, $response['success']);
     }
@@ -26,7 +32,8 @@ class NewsletterTest extends TestCase
      */
     public function test_query()
     {
-        $response = Newsletter::smQuery();
+        $newsletter = new Newsletter();
+        $response = $newsletter->smQuery();
 
         $this->assertEquals(true, $response['success']);
     }

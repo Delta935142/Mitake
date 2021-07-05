@@ -1,4 +1,4 @@
-# Laravel 三竹簡訊套件
+# Laravel 三竹簡訊非官方套件
 
 ## 安裝
 安裝套件需要先安裝 Composer
@@ -14,14 +14,14 @@ $ composer require delta935142/mitake
 開啟 `config/app.php`, 並且在 providers 陣列中加入下列:
 
 ```php
-Delta935142\Mitake\Providers\MitakeServiceProvider::class,
+Delta935142\Mitake\MitakeServiceProvider::class,
 ```
 
 #### Step 3 - 建立 config
 執行下列指令
 
 ```shell
-$ php artisan vendor:publish --provider="Delta935142\Mitake\Providers\MitakeServiceProvider"
+$ php artisan vendor:publish --provider="Delta935142\Mitake\MitakeServiceProvider"
 ```
 
 #### Step 4 - 設定 .env
@@ -43,7 +43,7 @@ MITAKE_PASSWORD=
 
 // ...
 
-use Delta935142\Mitake\Newsletter;
+use Delta935142\Mitake\Facades\Newsletter;
 
 class YourClass
 {
@@ -63,7 +63,7 @@ class YourClass
 
 // ...
 
-use Delta935142\Mitake\Newsletter;
+use Delta935142\Mitake\Facades\Newsletter;
 
 class YourClass
 {

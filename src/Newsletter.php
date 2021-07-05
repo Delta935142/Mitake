@@ -14,28 +14,43 @@ class Newsletter
      *
      * @var string
      */
-    protected static $reTime = '';
+    protected $reTime = '';
 
     /**
      * vl time
      *
      * @var string
      */
-    protected static $vlTime = '';
+    protected $vlTime = '';
 
     /**
      * dest name
      *
      * @var string
      */
-    protected static $name = '';
+    protected $name = '';
 
     /**
      * client ID
      *
      * @var string
      */
-    protected static $clientId = '';
+    protected $clientId = '';
+
+    /**
+     * data
+     *
+     * @var array
+     */
+    protected $data = [];
+
+    public function __construct()
+    {
+        $this->data = [
+            'username' => config('mitake.username'),
+            'password' => config('mitake.password'),
+        ];
+    }
 
     /**
      * set re time
@@ -43,11 +58,11 @@ class Newsletter
      * @param string $time
      * @return Newsletter
      */
-    public static function reTime(string $time): Newsletter
+    public function reTime(string $time): Newsletter
     {
-        self::$reTime = $time;
+        $this->reTime = $time;
 
-        return new self();
+        return $this;
     }
 
     /**
@@ -56,11 +71,11 @@ class Newsletter
      * @param string $time
      * @return Newsletter
      */
-    public static function vlTime(string $time): Newsletter
+    public function vlTime(string $time): Newsletter
     {
-        self::$vlTime = $time;
+        $this->vlTime = $time;
 
-        return new self();
+        return $this;
     }
 
     /**
@@ -69,11 +84,11 @@ class Newsletter
      * @param string $name
      * @return Newsletter
      */
-    public static function destName(string $name): Newsletter
+    public function destName(string $name): Newsletter
     {
-        self::$name = $name;
+        $this->name = $name;
 
-        return new self();
+        return $this;
     }
 
     /**
@@ -82,11 +97,11 @@ class Newsletter
      * @param string|int $id
      * @return Newsletter
      */
-    public static function client($id): Newsletter
+    public function client($id): Newsletter
     {
-        self::$clientId = $id;
+        $this->clientId = $id;
 
-        return new self();
+        return $this;
     }
 
     /**
@@ -94,27 +109,22 @@ class Newsletter
      *
      * @return array
      */
-    public static function smSend(string $phone, string $message): array
+    public function smSend(string $phone, string $message): array
     {
         $url = config('mitake.url.send')
             ? config('mitake.url.send').'?CharsetURL='.config('mitake.charset')
             : self::HOST.'/api/mtk/SmSend?CharsetURL='.self::CHARSET;
 
-        $data = [
-            'username' => config('mitake.username'),
-            'password' => config('mitake.password'),
-            'dstaddr'  => $phone,
-            'smbody'   => $message,
-        ];
+        $this->data['dstaddr'] = $phone;
+        $this->data['smbody'] = $message;
+        $this->data['dlvtime'] = ($this->reTime != '') ? date('YmdHis', strtotime($this->reTime)) : null;
+        $this->data['vldtime'] = ($this->vlTime != '') ? date('YmdHis', strtotime($this->vlTime)) : null;
 
-        $data['dlvtime'] = (self::$reTime != '') ? date('YmdHis', strtotime(self::$reTime)) : null;
-        $data['vldtime'] = (self::$vlTime != '') ? date('YmdHis', strtotime(self::$vlTime)) : null;
-
-        if (self::$name != '') $data['destname'] = self::$name;
-        if (self::$clientId != '') $data['clientid'] = self::$clientId;
+        if ($this->name != '') $this->data['destname'] = $this->name;
+        if ($this->clientId != '') $this->data['clientid'] = $this->clientId;
 
         $result = GuzzleHttpClient::setHost($url)
-            ->toForm($data, 'post')
+            ->toForm($this->data, 'post')
             ->get();
 
         if ($result['success']) {
@@ -135,19 +145,14 @@ class Newsletter
      *
      * @return array
      */
-    public static function smQuery(): array
+    public function smQuery(): array
     {
         $url = config('mitake.url.query')
             ? config('mitake.url.query')
             : self::HOST.'/api/mtk/SmQuery';
 
-        $data = [
-            'username' => env('MITAKE_USERNAME', ''),
-            'password' => env('MITAKE_PASSWORD', ''),
-        ];
-
         $result = GuzzleHttpClient::setHost($url)
-            ->toForm($data, 'post')
+            ->toForm($this->data, 'post')
             ->get();
 
         if ($result['success']) {

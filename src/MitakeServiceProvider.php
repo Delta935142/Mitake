@@ -1,6 +1,6 @@
 <?php
 
-namespace Delta935142\Mitake\Providers;
+namespace Delta935142\Mitake;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,6 +13,14 @@ class MitakeServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('newsletter', function ($app) {
+            return new Newsletter($app);
+        });
+
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/mitake.php',
+            'mitake'
+        );
     }
 
     /**
@@ -32,7 +40,7 @@ class MitakeServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__.'/../../config/mitake.php' => config_path('mitake.php'),
+            __DIR__.'/../config/mitake.php' => config_path('mitake.php'),
         ], 'config');
     }
 }
